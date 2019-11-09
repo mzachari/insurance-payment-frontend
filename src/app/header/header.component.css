@@ -1,0 +1,26 @@
+a {
+  text-decoration: none;
+  color:black;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+
+}
+.spacer {
+  flex: 1 1 auto;
+}
+mat-toolbar {
+  background-color:white;
+}
+h3{
+  color:black;
+}
+.page-title{
+  display: flex;
+}
+.ico-eco{
+  color:black;
+}

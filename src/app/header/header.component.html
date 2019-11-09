@@ -1,0 +1,16 @@
+<mat-toolbar>
+    <span class="page-title">
+        <h3>FARM EASY</h3>
+        <mat-icon class="ico-eco">eco</mat-icon>
+    </span>
+  <span class="spacer"></span>
+  <ul>
+    <li *ngIf="!isAuthenticated">
+      <a mat-button (click) = "openAuthMenu()" >LOGIN/SIGNUP</a>
+    </li>
+    <li *ngIf="isAuthenticated">
+        <a mat-button (click) = "onLogout()" >LOGOUT</a>
+      </li>
+  </ul>
+</mat-toolbar>
+

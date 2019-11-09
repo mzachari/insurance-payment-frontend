@@ -1,0 +1,31 @@
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form #signupForm="ngForm" (submit)="onSignup(signupForm)" *ngIf="!isLoading">
+      <mat-form-field>
+          <input matInput name="name" ngModel #nameInput="ngModel" type="text" placeholder="Name" required  />
+          <mat-error *ngIf="nameInput.invalid">Please enter a name.</mat-error>
+        </mat-form-field>
+    <mat-form-field>
+      <input matInput name="contactNumber" ngModel #contactNumberInput="ngModel" type="tel" placeholder="Contact Number" required />
+      <mat-error *ngIf="contactNumberInput.invalid">Please enter a valid contact number.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput name="password" ngModel #passwordInput="ngModel" type="password" placeholder="Password"
+        required />
+      <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
+    </mat-form-field>
+    <label id="role-radio-group-label">Register as:</label>
+    <mat-radio-group aria-labelledby="role-radio-group-label" class="role-radio-group"
+      [(ngModel)]="role" #roleInput = "ngModel" name="role" required=true>
+      <mat-radio-button class="example-radio-button" value="Farmer">
+        Farmer
+      </mat-radio-button>
+      <mat-radio-button class="example-radio-button" value="Insurance Provider">
+        Insurance Provider
+      </mat-radio-button>
+    </mat-radio-group>
+    <!-- <mat-error *ngIf="roleInput.invalid">Please choose the role.</mat-error> -->
+    <button mat-dialog-close *ngIf="!isLoading" mat-raised-button color="accent" type="submit">Signup</button>
+
+  </form>
+</mat-card>

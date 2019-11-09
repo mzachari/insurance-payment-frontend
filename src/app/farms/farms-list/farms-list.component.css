@@ -1,0 +1,35 @@
+mat-card{
+  max-width:150px;
+  max-height:400px;
+  background-color: white;
+  color:black;
+  margin:1rem;
+}
+.farm-add-card{
+  background-image: url('../../../assets/farm.png');
+  width: 150px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: white;
+  color:white;
+  position: relative;
+  text-align: center;
+}
+.farm-add-card:hover{
+  opacity: 0.9;
+}
+.centered {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.farm-list-container{
+  display:flex;
+}
+mat-card .farm-add-img{
+  object-fit: cover; /*this makes de image in src fit to the size of specified below*/
+  width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+  height: 100%;
+  margin:auto;
+}

@@ -1,0 +1,32 @@
+<mat-card *ngIf="cropsListLoaded">
+  <agm-map [latitude]="lat" [longitude]="lng" (mapReady)="onMapReady($event)">
+  </agm-map>
+
+  <div class="farm-land-details" *ngIf="farmCoordsTrunc.length > 0">
+    <mat-chip-list>
+      <mat-chip color="primary" selected>Area : {{ farmArea.toPrecision(5) }}</mat-chip>
+      <mat-chip class="location-coords" *ngFor="let point of farmCoordsTrunc">
+        <mat-icon>room</mat-icon>{{'(' + point.lat + ', ' + point.lng + ')'}}
+      </mat-chip>
+      <mat-chip color="primary" id="clear-maps" (click)="deleteSelectedShape()" selected>Reset</mat-chip>
+    </mat-chip-list>
+  </div>
+
+  <form [formGroup]="form" (submit)="onFarmAdd()">
+    <mat-form-field>
+      <mat-label>Crop</mat-label>
+      <mat-select formControlName="cropType">
+        <mat-option *ngFor="let crop of cropsList" [value]="crop.name">
+          {{crop.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput rows="4" formControlName="description" placeholder="Description"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Add Farm</button>
+    <button mat-raised-button (click)="onFarmAddCancel()" color="accent">Cancel</button>
+
+  </form>
+</mat-card>
