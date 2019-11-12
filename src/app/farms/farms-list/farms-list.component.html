@@ -1,18 +1,11 @@
-<div class="farm-list-container">
-<mat-card class="farm-card">
-    <!-- <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-    </mat-card-header> -->
+<div class="farm-list-container" *ngIf="farmsList.length > 0">
+<mat-card class="farm-card" appMaterialElevation defaultElevation=2 raisedElevation="16" *ngFor="let farm of farmsList">
     <img mat-card-image src="../../../assets/farm.png" alt="Photo of a plant">
+    <button class="edit-icon" mat-icon-button><mat-icon>edit</mat-icon></button>
     <mat-card-content>
-      <p>
-        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-      </p>
+      <p class="farm-detail-field">{{ farm.cropType.toUpperCase() }}</p>
+      <p *ngIf = "farm.area > 0" class="farm-detail-field">{{ farm.area.toPrecision(5) }} m<sup>2</sup> </p>
+      <p *ngIf = "farm.startDate != null && farm.endDate != null" class="farm-detail-field-date">{{ farm.startDate }} - {{ farm.endDate }} </p>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>EDIT</button>
-      <button mat-button>DELETE</button>
-    </mat-card-actions>
   </mat-card>
+</div>

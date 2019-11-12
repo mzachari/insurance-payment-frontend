@@ -1,43 +1,71 @@
 <mat-spinner *ngIf="!dataLoaded"></mat-spinner>
 <div *ngIf="dataLoaded && farmerData != null">
-<mat-card class="farmer-card">
+  <mat-card class="farmer-card">
     <mat-card-header>
       <div mat-card-avatar class="farmer-image">&nbsp;</div>
       <mat-card-title>{{ farmerData.name }}</mat-card-title>
       <mat-card-subtitle>{{ farmerData.contactNumber }}</mat-card-subtitle>
       <span class="spacer"></span>
       <ul>
-          <li>
-              <a mat-button (click)="showAddFarmForm()">Add Farm</a>
-          </li>
-          <li>
-              <a mat-button>Add Insurance Plan</a>
-          </li>
+        <li>
+          <a
+            *ngIf="mode !== 'ins-add'"
+            color="primary"
+            mat-button
+            (click)="showAddInsuranceForm()"
+            >Add Insurance Plan</a
+          >
+        </li>
+        <li>
+          <a
+            *ngIf="mode !== 'farm-add'"
+            color="primary"
+            mat-button
+            (click)="showAddFarmForm()"
+            >Add Farm</a
+          >
+        </li>
+        <li>
+          <a
+            *ngIf="mode !== 'list'"
+            color="primary"
+            mat-button
+            (click)="showList()"
+            >View List</a
+          >
+        </li>
       </ul>
-      <button mat-icon-button><mat-icon matBadge="15" matBadgeColor="warn">notifications</mat-icon></button>
+      <button mat-icon-button>
+        <mat-icon matBadge="15" matBadgeColor="warn">notifications</mat-icon>
+      </button>
       <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>more_vert</mat-icon>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <!-- <mat-icon></mat-icon> -->
+          <span>View Full Profile</span>
         </button>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item>
-                <!-- <mat-icon></mat-icon> -->
-                <span>View Full Profile</span>
-              </button>
-          <button mat-menu-item>
-            <!-- <mat-icon></mat-icon> -->
-            <span>Logout</span>
-          </button>
-        </mat-menu>
+        <button mat-menu-item>
+          <!-- <mat-icon></mat-icon> -->
+          <span>Logout</span>
+        </button>
+      </mat-menu>
     </mat-card-header>
   </mat-card>
 
   <mat-tab-group *ngIf="mode == 'list'" dynamicHeight>
-      <mat-tab label="Farms">
-          <app-farms-list *ngIf="mode == 'list'" [farmerId]="farmerId"></app-farms-list>
-      </mat-tab>
-      <mat-tab label="Insurance Plans">
-      </mat-tab>
-    </mat-tab-group>
+    <mat-tab label="Cultivations">
+      <app-farms-list [farmerId]="farmerId"></app-farms-list>
+    </mat-tab>
+    <mat-tab label="Insurance Plans">
+      <app-insurance-list></app-insurance-list>
+    </mat-tab>
+  </mat-tab-group>
 
-    <app-farm-add *ngIf="mode == 'add'" (farmAdded)="onFarmAdded($event)"></app-farm-add>
+  <app-insurance-add *ngIf="mode == 'ins-add'"></app-insurance-add>
+  <app-farm-add
+    *ngIf="mode == 'farm-add'"
+    (farmAdded)="onFarmAdded($event)"
+  ></app-farm-add>
 </div>

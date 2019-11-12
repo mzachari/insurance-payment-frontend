@@ -19,6 +19,10 @@ import { FarmsListComponent } from './farms/farms-list/farms-list.component';
 import { FarmAddComponent } from './farms/farm-add/farm-add.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
+import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
+import { InsuranceAddComponent } from './insurance/insurance-add/insurance-add.component';
+import { InsuranceListComponent } from './insurance/insurance-list/insurance-list.component';
+import { MaterialElevationDirective } from './material-elevation.directive';
 
 @NgModule({
   declarations: [
@@ -31,11 +35,14 @@ import { AgmCoreModule } from '@agm/core';
     HomeComponent,
     FarmerDetailsComponent,
     FarmsListComponent,
-    FarmAddComponent
+    FarmAddComponent,
+    InsuranceAddComponent,
+    InsuranceListComponent,
+    MaterialElevationDirective
   ],
   imports: [
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDoYJTk2xQetVDSfiYb9xCFohaXm-PvBE4',
+      apiKey: 'AIzaSyDA8C5ajxqNc_umQDsU1wHlWf70ZQoOWsE',
       libraries: ['places', 'drawing', 'geometry']
     }),
     BrowserModule,
@@ -44,7 +51,10 @@ import { AgmCoreModule } from '@agm/core';
     HttpClientModule,
     AngularMaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatNativeDateModule,
+    MatRippleModule
+
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}],

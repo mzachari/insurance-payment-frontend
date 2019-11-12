@@ -12,20 +12,31 @@ import { Farm } from '../farm-data.model';
 })
 export class FarmsListComponent implements OnInit {
   @Input() farmerId: string;
-  cropsList: Crop[];
-  farmsList: Farm[];
+  cropsList: Crop[] = [];
+  farmsList: Farm[] = [];
   constructor(private cropService: CropService, private farmService: FarmService) {}
 
   ngOnInit() {
    // this.cropsList = this.cropService.getCurrCropsList().crops;
    this.farmService.getAllFarms();
    this.farmService.getFarmsListUpdateListener().subscribe(farmsList => {
-      this.farmsList = farmsList.farms;
-      console.log(this.farmsList);
+      this.farmsList =  farmsList.farms.map(farm => {
+        return {
+          ...farm,
+          startDate: farm.startDate != null?this.convertDate(farm.startDate):null,
+          endDate: farm.endDate != null? this.convertDate(farm.endDate):null        
+        };
+      });
    });
+   console.log(this.farmsList);
   }
   onAddFarm() {
     console.log('add farm clicked');
+  }
+  convertDate(inputFormat) {
+    function pad(s) { return (s < 10) ? '0' + s : s; }
+    const d = new Date(inputFormat);
+    return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear().toString().substr(-2)].join('/')
   }
 
 }

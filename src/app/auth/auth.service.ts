@@ -35,8 +35,7 @@ export class AuthService {
     this.http.post('http://localhost:3000/api/farmers/signup', formData)
       .subscribe(response => {
         console.log(response);
-        this.authStatusListener.next(true);
-        this.router.navigate(['/profile']);
+        this.authStatusListener.next(false);
       }, error => {
         this.authStatusListener.next(false);
       });

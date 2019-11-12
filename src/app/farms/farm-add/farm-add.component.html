@@ -1,17 +1,10 @@
 <mat-card *ngIf="cropsListLoaded">
-  <agm-map [latitude]="lat" [longitude]="lng" (mapReady)="onMapReady($event)">
+  <agm-map [zoom]="8" [latitude]="lat" [longitude]="lng" (mapReady)="onMapReady($event)">
   </agm-map>
-
-  <div class="farm-land-details" *ngIf="farmCoordsTrunc.length > 0">
-    <mat-chip-list>
-      <mat-chip color="primary" selected>Area : {{ farmArea.toPrecision(5) }}</mat-chip>
-      <mat-chip class="location-coords" *ngFor="let point of farmCoordsTrunc">
-        <mat-icon>room</mat-icon>{{'(' + point.lat + ', ' + point.lng + ')'}}
-      </mat-chip>
-      <mat-chip color="primary" id="clear-maps" (click)="deleteSelectedShape()" selected>Reset</mat-chip>
-    </mat-chip-list>
-  </div>
-
+  <p class= "farm-area-display" *ngIf = "farmArea > 0">Area Selected: {{ farmArea.toPrecision(5) }} m<sup>2</sup>
+  <span class="spacer"></span>
+   <button  color="warn" mat-button id = "clear-maps" (click) = "deleteSelectedShape()">Clear</button>
+  </p>
   <form [formGroup]="form" (submit)="onFarmAdd()">
     <mat-form-field>
       <mat-label>Crop</mat-label>
@@ -21,6 +14,19 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [matDatepicker]="startDatepicker" placeholder="Choose Cultivation Start Date"  formControlName="startDate">
+      <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatepicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput [matDatepicker]="endDatepicker" placeholder="Choose Cultivation End Date"  formControlName="endDate">
+        <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatepicker></mat-datepicker>
+      </mat-form-field>
+
     <mat-form-field>
       <textarea matInput rows="4" formControlName="description" placeholder="Description"></textarea>
     </mat-form-field>

@@ -14,7 +14,9 @@ import {
   MatMenuModule,
   MatBadgeModule,
   MatSelectModule,
-  MatChipsModule
+  MatChipsModule,
+  MatDatepickerModule,
+  MatStepperModule
 } from '@angular/material';
 @NgModule({
   exports: [
@@ -32,7 +34,9 @@ import {
   MatMenuModule,
   MatBadgeModule,
   MatSelectModule,
-  MatChipsModule
+  MatChipsModule,
+  MatDatepickerModule,
+  MatStepperModule
   ]
 })
 export class AngularMaterialModule {}

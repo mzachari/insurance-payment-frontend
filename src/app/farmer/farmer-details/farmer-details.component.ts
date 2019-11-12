@@ -41,7 +41,7 @@ export class FarmerDetailsComponent implements OnInit {
   }
 
   showAddFarmForm() {
-    this.mode = 'add';
+    this.mode = 'farm-add';
   }
 
   onFarmAdded(addStatus) {
@@ -49,6 +49,12 @@ export class FarmerDetailsComponent implements OnInit {
     this.mode = 'list';
   }
 
+  showAddInsuranceForm() {
+    this.mode = 'ins-add';
+  }
+  showList(){
+    this.mode = 'list';
+  }
 
 
 }

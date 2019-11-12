@@ -21,8 +21,7 @@ export class FarmService {
       this.farmsList = responseData.farms.map(farm => {
         return {
           id: farm._id,
-          cropType: farm.cropType,
-          location: farm.location
+          ...farm
         };
       });
       this.farmsListUpdated.next({ farms: [...this.farmsList] });

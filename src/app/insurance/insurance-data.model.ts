@@ -1,0 +1,13 @@
+export interface Insurance {
+  premiumPercentage: number;
+  insuredAmount: number;
+  insurancePlanNumber: string;
+  insuranceStartDate: Date;
+  insuranceEndDate: Date;
+  farmId: string;
+  insuranceProvider: string; // example ICICI Lombard Policy
+  isFormComplete: number;
+  farmerId: string;
+  imagePath: string;
+  // polygonSchema?
+}

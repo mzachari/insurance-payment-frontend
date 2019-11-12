@@ -1,9 +1,16 @@
-import { Component, OnInit, Output, EventEmitter, AfterViewInit, } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  AfterViewInit
+} from '@angular/core';
+
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FarmService } from '../farm.service';
 import { Crop } from 'src/app/crops/crops-data.model';
 import { CropService } from 'src/app/crops/crops.service';
-import { } from 'googlemaps';
+import {} from 'googlemaps';
 declare const google: any;
 
 @Component({
@@ -15,9 +22,9 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
   cropsList: Crop[];
   lat = 20.5937;
   lng = 78.9629;
-  farmCoords: { lat: number, lng: number }[] = [];
-  farmCoordsTrunc: { lat: string, lng: string }[] = [];
-  farmArea: number;
+  farmCoords: { lat: number; lng: number }[] = [];
+  farmCoordsTrunc: { lat: string; lng: string }[] = [];
+  farmArea: number = 0;
   cropsListLoaded = false;
   private mode = 'add';
   form: FormGroup;
@@ -25,21 +32,26 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
   selectedShape: any;
 
   @Output() farmAdded = new EventEmitter();
-  constructor(private farmService: FarmService, private cropService: CropService) { }
+  constructor(
+    private farmService: FarmService,
+    private cropService: CropService
+  ) {}
 
-  ngAfterViewInit() {
-
-  }
+  ngAfterViewInit() {}
   ngOnInit() {
     this.cropService.getCropsList();
-    this.cropService.getCropsListUpdateListener().subscribe((cropsData: { crops: Crop[] }) => {
-      this.cropsListLoaded = true;
-      this.cropsList = cropsData.crops;
-      console.log(this.cropsList);
-    });
+    this.cropService
+      .getCropsListUpdateListener()
+      .subscribe((cropsData: { crops: Crop[] }) => {
+        this.cropsListLoaded = true;
+        this.cropsList = cropsData.crops;
+        console.log(this.cropsList);
+      });
     this.form = new FormGroup({
       cropType: new FormControl(null, { validators: [Validators.required] }),
-      description: new FormControl(null)
+      description: new FormControl(null),
+      startDate: new FormControl(null),
+      endDate: new FormControl(null)
     });
   }
   onFarmAdd() {
@@ -49,13 +61,11 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
     if (this.mode === 'add') {
       // tslint:disable-next-line: prefer-const
       let postBody = this.form.value;
+      postBody.area = this.farmArea;
       postBody.polygonPoints = {
         type: 'Polygon',
         coordinates: this.farmCoords.map(farm => {
-          return [
-            farm.lat,
-            farm.lng
-          ];
+          return [farm.lat, farm.lng];
         })
       };
       console.log(this.form.value);
@@ -78,10 +88,11 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
   }
 
   deleteSelectedShape() {
+    console.log('delete')
     if (this.selectedShape) {
       this.selectedShape.setMap(null);
+      this.farmArea = 0;
       this.farmCoords = [];
-      this.farmCoordsTrunc = [];
       // To show:
       this.drawingManager.setOptions({
         drawingControl: true
@@ -89,11 +100,11 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
     }
   }
   clearSelection() {
+    console.log('clicked')
     if (this.selectedShape) {
       this.selectedShape.setEditable(false);
       this.selectedShape = null;
       this.farmCoords = [];
-      this.farmCoordsTrunc = [];
     }
   }
   setSelection(shape) {
@@ -101,7 +112,6 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
     this.selectedShape = shape;
     shape.setEditable(true);
   }
-
 
   initDrawingManager(map: any) {
     const options = {
@@ -117,45 +127,109 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
     };
     this.drawingManager = new google.maps.drawing.DrawingManager(options);
     this.drawingManager.setMap(map);
-    google.maps.event.addListener(this.drawingManager, 'overlaycomplete', (event) => {
-      if (event.type === google.maps.drawing.OverlayType.POLYGON) {
-        console.log('if1');
-        this.farmCoords = [];
-        this.farmCoordsTrunc = [];
-        const len = event.overlay.getPath().getLength();
-        for (let i = 0; i < len; i++) {
-          this.farmCoords.push(event.overlay.getPath().getAt(i).toJSON());
+    google.maps.event.addListener(
+      this.drawingManager,
+      'overlaycomplete',
+      event => {
+        if (event.type === google.maps.drawing.OverlayType.POLYGON) {
+          var paths = event.overlay.getPaths();
+          for (var p = 0; p < paths.getLength(); p++) {
+            google.maps.event.addListener(paths.getAt(p), 'set_at', function() {
+              if (!event.overlay.drag) {
+                console.log('triggered 1!');
+                this.farmCoords = [];
+                const len = event.overlay.getPath().getLength();
+                for (let i = 0; i < len; i++) {
+                  this.farmCoords.push(
+                    event.overlay
+                      .getPath()
+                      .getAt(i)
+                      .toJSON()
+                  );
+                }
+                this.farmArea = google.maps.geometry.spherical.computeArea(
+                  event.overlay.getPath()
+                );
+                console.log(this.farmCoords, this.farmArea);
+              }
+            });
+            google.maps.event.addListener(
+              paths.getAt(p),
+              'insert_at',
+              function() {
+                console.log('triggered 2!');
+                this.farmCoords = [];
+                const len = event.overlay.getPath().getLength();
+                for (let i = 0; i < len; i++) {
+                  this.farmCoords.push(
+                    event.overlay
+                      .getPath()
+                      .getAt(i)
+                      .toJSON()
+                  );
+                }
+                this.farmArea = google.maps.geometry.spherical.computeArea(
+                  event.overlay.getPath()
+                );
+                console.log(this.farmCoords, this.farmArea);
+              }
+            );
+            google.maps.event.addListener(
+              paths.getAt(p),
+              'remove_at',
+              function() {
+                console.log('triggered 3!');
+                this.farmCoords = [];
+                const len = event.overlay.getPath().getLength();
+                for (let i = 0; i < len; i++) {
+                  this.farmCoords.push(
+                    event.overlay
+                      .getPath()
+                      .getAt(i)
+                      .toJSON()
+                  );
+                }
+                this.farmArea = google.maps.geometry.spherical.computeArea(
+                  event.overlay.getPath()
+                );
+                console.log(this.farmCoords, this.farmArea);
+              }
+            );
+          }
+          console.log('if1');
+          this.farmCoords = [];
+          const len = event.overlay.getPath().getLength();
+          for (let i = 0; i < len; i++) {
+            this.farmCoords.push(
+              event.overlay
+                .getPath()
+                .getAt(i)
+                .toJSON()
+            );
+          }
+          this.farmArea = google.maps.geometry.spherical.computeArea(
+            event.overlay.getPath()
+          );
+          console.log(this.farmCoords, this.farmArea);
         }
-        this.farmCoordsTrunc = this.farmCoords.map(farm => {
-          return {
-            lat: farm.lat.toPrecision(5),
-            lng: farm.lng.toPrecision(5)
-          };
-        });
-        this.farmArea = google.maps.geometry.spherical.computeArea(event.overlay.getPath());
-        // console.log("center", event.overlay.getBounds().getCenter())
-        // console.log('area = ', area);
-      }
-      if (event.type !== google.maps.drawing.OverlayType.MARKER) {
-        console.log('if2');
-        // Switch back to non-drawing mode after drawing a shape.
-        this.drawingManager.setDrawingMode(null);
-        // To hide:
-        this.drawingManager.setOptions({
-          drawingControl: false
-        });
-        // Add an event listener that selects the newly-drawn shape when the user
-        // mouses down on it.
-        const newShape = event.overlay;
-        newShape.type = event.type;
-        google.maps.event.addListener(newShape, 'click', () => {
+        if (event.type !== google.maps.drawing.OverlayType.MARKER) {
+          console.log('if2');
+          // Switch back to non-drawing mode after drawing a shape.
+          this.drawingManager.setDrawingMode(null);
+          // To hide:
+          this.drawingManager.setOptions({
+            drawingControl: false
+          });
+          // Add an event listener that selects the newly-drawn shape when the user
+          // mouses down on it.
+          const newShape = event.overlay;
+          newShape.type = event.type;
+          google.maps.event.addListener(newShape, 'click', () => {
+            this.setSelection(newShape);
+          });
           this.setSelection(newShape);
-        });
-        this.setSelection(newShape);
+        }
       }
-    });
-    google.maps.event.addListener(this.drawingManager, 'drawingmode_changed', this.clearSelection);
+    );
   }
-
-
 }

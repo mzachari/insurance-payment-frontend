@@ -1,0 +1,26 @@
+    <mat-expansion-panel [expanded] = "true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Incomplete ({{incompleteCount}})
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="insurance-list-container" *ngIf="insuranceList.length > 0">
+          <mat-card appMaterialElevation defaultElevation=2 raisedElevation="16" class="insurance-card" *ngFor="let insurance of insuranceList">
+              <img mat-card-image src="../../../assets/insurance.png" alt="Photo of a plant">
+              <button class="edit-icon" mat-icon-button><mat-icon>edit</mat-icon></button>
+              <mat-card-content>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded] = "true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Complete ({{completeCount}})
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+    </mat-expansion-panel>
