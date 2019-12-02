@@ -1,5 +1,11 @@
-<mat-horizontal-stepper [linear]="true" #stepper>
-  <mat-step [stepControl]="firstFormGroup" optional="true">
+<mat-spinner *ngIf="!(dataLoaded && farmsLoaded)"></mat-spinner>
+<mat-horizontal-stepper
+  *ngIf="dataLoaded && farmsLoaded"
+  [linear]="true"
+  #stepper
+  [selectedIndex]="insuranceDoc != null ? insuranceDoc.isFormComplete : 0"
+>
+  <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Upload Insurance Plan Image</ng-template>
       <br />
@@ -21,11 +27,13 @@
     >
       <img [src]="imagePreview" [alt]="firstFormGroup.value.title" />
       <div class="flex-container">
-          <button style="margin-right:1rem"
+        <button
+          style="margin-right:1rem"
           color="primary"
           mat-stroked-button
           type="button"
           (click)="onImageUpload()"
+          matStepperNext
         >
           Upload
         </button>
@@ -33,29 +41,138 @@
       </div>
     </div>
   </mat-step>
+
   <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Verify your Details</ng-template>
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Address"
-          formControlName="secondCtrl"
-          required
-        />
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
+    <mat-card>
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Verify your Details</ng-template>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Insurance Plan Id"
+            formControlName="insurancePlanId"
+            required
+          />
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Sum Insured"
+            formControlName="sumInsured"
+            required
+          />
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Premium Percentage"
+            formControlName="premium"
+            required
+          />
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Insurance Start Date"
+            formControlName="inStartDate"
+            [matDatepicker]="startDatepicker"
+            required
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="startDatepicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #startDatepicker></mat-datepicker>
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Insurance End Date"
+            formControlName="inEndDate"
+            [matDatepicker]="endDatepicker"
+            required
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="endDatepicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #endDatepicker></mat-datepicker>
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <mat-label>Farm</mat-label>
+          <mat-select *ngIf="farmsLoaded" formControlName="farmId">
+            <mat-option *ngFor="let farm of farmsList" [value]="farm.id">
+              {{ farm.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br />
+        <div>
+          <button (click)="onBackFromVerifyTab()" mat-button matStepperPrevious>
+            Back
+          </button>
+          <button (click)="onDetailsVerified()" mat-button matStepperNext>
+            Next
+          </button>
+        </div>
+      </form>
+    </mat-card>
   </mat-step>
+
   <mat-step>
     <ng-template matStepLabel>Confirm and Submit</ng-template>
-    You are now done.
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
+    <mat-card>
+      <img
+        mat-card-image
+        src="../../../assets/insbg.jpg"
+        alt="Insurance background"
+      />
+      <mat-card-content class="insurance-complete">
+        <table mat-table *ngIf = "insuranceDoc != null">
+          <tr>
+            <td class="table-label">Insurance Plan Id</td>
+            <td>{{ insuranceDoc.insuranceId }}</td>
+          </tr>
+          <tr *ngIf="insuranceDoc.farmId != '' && insuranceDoc.farmId != null">
+            <td class="table-label">Farm Name</td>
+            <td>{{ insFarmName }}</td>
+          </tr>
+
+          <tr>
+            <td class="table-label">Insurance Start Date</td>
+            <td>{{ convertDate(insuranceDoc.insuranceStartDate) }}</td>
+          </tr>
+          <tr>
+            <td class="table-label">Insurance End Date</td>
+            <td>{{ convertDate(insuranceDoc.insuranceEndDate) }}</td>
+          </tr>
+          <tr>
+            <td class="table-label">Insured Amount</td>
+            <td>{{ insuranceDoc.insuredAmount }}</td>
+          </tr>
+          <tr>
+            <td class="table-label">Premium Percentage</td>
+            <td>{{ insuranceDoc.premiumPercentage }}</td>
+          </tr>
+        </table>
+
+        <section>
+          <mat-checkbox [(ngModel)]="signed"
+            >I agree that the above information is valid</mat-checkbox
+          >
+        </section>
+        <div class="align-right">
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-raised-button color="primary" [disabled]="!signed">
+            Submit
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </mat-step>
 </mat-horizontal-stepper>

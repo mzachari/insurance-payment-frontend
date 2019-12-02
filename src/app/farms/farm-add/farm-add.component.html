@@ -6,6 +6,19 @@
    <button  color="warn" mat-button id = "clear-maps" (click) = "deleteSelectedShape()">Clear</button>
   </p>
   <form [formGroup]="form" (submit)="onFarmAdd()">
+      <mat-form-field>
+          <input
+            matInput
+            placeholder="Farm Name"
+            formControlName="name"
+            required
+            (input)="onNameChanged($event)"
+          />
+          <mat-icon matSuffix>{{uniqueValidatorIcon}}</mat-icon>
+          <mat-error *ngIf="form.get('name').status === 'INVALID'">
+              <app-validation-error [errors]="form.get('name').errors"></app-validation-error>
+            </mat-error>
+        </mat-form-field>
     <mat-form-field>
       <mat-label>Crop</mat-label>
       <mat-select formControlName="cropType">

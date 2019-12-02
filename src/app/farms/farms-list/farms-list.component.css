@@ -35,14 +35,23 @@ mat-card .farm-add-img {
   height: 100%;
   margin: auto;
 }
-.farm-detail-field,
+.farm-detail-field-label {
+  color:#e0e0e0;
+  font-weight: 500;
+  text-align: center;
+  visibility: hidden;
+  text-align: center;
+}
+.farm-detail-field-value,
 .farm-detail-field-date {
   text-align: center;
   color: grey;
   font-weight: 500;
+
 }
 .farm-detail-field-date {
   font-size: 0.75rem;
+  color:#e0e0e0;
 }
 .edit-icon {
   position: absolute;
@@ -51,6 +60,28 @@ mat-card .farm-add-img {
   color:white;
   display: none;
 }
+mat-card:hover .farm-detail-field-label{
+  visibility: visible;
+}
 mat-card:hover .edit-icon{
   display: block;
+}
+.farm-name, .icon-landscape{
+  color:green;
+}
+.farm-name{
+  text-align: center;
+  font-weight: 500;
+}
+.icon-landscape{
+  vertical-align: middle;
+}
+.farm-sub-details {
+  text-align:center;
+}
+p{
+  margin:0px!important;
+}
+img{
+  margin-bottom:0px!important;
 }

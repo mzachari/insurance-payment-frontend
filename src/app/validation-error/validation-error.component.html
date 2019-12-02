@@ -1,0 +1,3 @@
+<ng-container *ngIf="errors && errors['required']"> Required</ng-container>
+<ng-container *ngIf="errors && errors['notUnique']">Name already exists. Please enter a unique name.</ng-container>
+<ng-container *ngIf="errors && errors['email']">Please enter a valid email</ng-container>

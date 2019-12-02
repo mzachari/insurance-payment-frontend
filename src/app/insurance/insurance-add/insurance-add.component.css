@@ -12,3 +12,42 @@ input[type="file"]{
   display: flex;
   padding-bottom: 2rem;
 }
+mat-spinner{
+  margin: auto;
+}
+::ng-deep form{
+  margin:1rem;
+}
+::ng-deep .mat-form-field{
+  width:100%;
+}
+mat-card{
+  width:60%;
+  margin:auto;
+  min-width:300px;
+}
+.mat-card-image{
+  height: 2rem;
+}
+.insurance-complete{
+  padding:2rem;
+  margin:auto;
+}
+table{
+  width:100%;
+}
+table td{
+  width:50%;
+  font-size: 1rem;
+  padding:1rem;
+  color:#808080;
+}
+.table-label{
+  font-weight: 500;
+}
+.align-right{
+  float:right;
+}
+.insurance-complete-bg{
+  background-color: yellow;
+}

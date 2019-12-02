@@ -22,7 +22,7 @@
             color="primary"
             mat-button
             (click)="showAddFarmForm()"
-            >Add Farm</a
+            >Add Cultivation</a
           >
         </li>
         <li>
@@ -46,7 +46,7 @@
           <!-- <mat-icon></mat-icon> -->
           <span>View Full Profile</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click) = "onLogout()">
           <!-- <mat-icon></mat-icon> -->
           <span>Logout</span>
         </button>
@@ -59,11 +59,11 @@
       <app-farms-list [farmerId]="farmerId"></app-farms-list>
     </mat-tab>
     <mat-tab label="Insurance Plans">
-      <app-insurance-list></app-insurance-list>
+      <app-insurance-list (launchInsuranceAdd)="onInsEdit($event)"></app-insurance-list>
     </mat-tab>
   </mat-tab-group>
 
-  <app-insurance-add *ngIf="mode == 'ins-add'"></app-insurance-add>
+  <app-insurance-add *ngIf="mode == 'ins-add'" [insuranceId]="insuranceId"></app-insurance-add>
   <app-farm-add
     *ngIf="mode == 'farm-add'"
     (farmAdded)="onFarmAdded($event)"

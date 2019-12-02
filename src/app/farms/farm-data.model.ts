@@ -7,4 +7,5 @@ export interface Farm {
   area: number;
   startDate: string;
   endDate: string;
+  name: string;
 }

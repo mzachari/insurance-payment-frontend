@@ -10,16 +10,19 @@ import { Farmer } from '../farmer-data.model';
 })
 export class FarmerDetailsComponent implements OnInit {
   farmerId: string;
+  insuranceId = '';
   farmerData: Farmer = null;
   private authListenerSubs: Subscription;
   isAuthenticated = false;
   mode = 'list';
   dataLoaded = false;
   private farmerDetailsSub: Subscription;
-  constructor(private authService: AuthService, private farmerService: FarmerService) { }
+  constructor(
+    private authService: AuthService,
+    private farmerService: FarmerService
+  ) {}
 
   ngOnInit() {
-
     this.isAuthenticated = this.authService.isAuth();
     if (this.isAuthenticated) {
       this.farmerId = this.authService.getUserId();
@@ -33,11 +36,12 @@ export class FarmerDetailsComponent implements OnInit {
         this.dataLoaded = true;
       });
     }
-    this.authListenerSubs = this.authService.getAuthStatusListener().subscribe(isAuthenticated => {
-      this.isAuthenticated = isAuthenticated;
-      this.farmerId = this.authService.getUserId();
-    });
-
+    this.authListenerSubs = this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.isAuthenticated = isAuthenticated;
+        this.farmerId = this.authService.getUserId();
+      });
   }
 
   showAddFarmForm() {
@@ -47,14 +51,22 @@ export class FarmerDetailsComponent implements OnInit {
   onFarmAdded(addStatus) {
     console.log(addStatus);
     this.mode = 'list';
+    this.insuranceId = '';
+  }
+  onInsEdit(insId) {
+    console.log(insId);
+    this.insuranceId = insId;
+    this.mode = 'ins-add';
   }
 
   showAddInsuranceForm() {
     this.mode = 'ins-add';
   }
-  showList(){
+  showList() {
     this.mode = 'list';
+    this.insuranceId = '';
   }
-
-
+  onLogout() {
+    this.authService.logout();
+  }
 }

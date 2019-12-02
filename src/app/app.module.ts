@@ -23,6 +23,7 @@ import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import { InsuranceAddComponent } from './insurance/insurance-add/insurance-add.component';
 import { InsuranceListComponent } from './insurance/insurance-list/insurance-list.component';
 import { MaterialElevationDirective } from './material-elevation.directive';
+import { ValidationErrorComponent } from './validation-error/validation-error.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { MaterialElevationDirective } from './material-elevation.directive';
     FarmAddComponent,
     InsuranceAddComponent,
     InsuranceListComponent,
-    MaterialElevationDirective
+    MaterialElevationDirective,
+    ValidationErrorComponent
   ],
   imports: [
     AgmCoreModule.forRoot({

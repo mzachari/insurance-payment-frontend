@@ -16,7 +16,8 @@ import {
   MatSelectModule,
   MatChipsModule,
   MatDatepickerModule,
-  MatStepperModule
+  MatStepperModule,
+  MatCheckboxModule
 } from '@angular/material';
 @NgModule({
   exports: [
@@ -36,7 +37,8 @@ import {
   MatSelectModule,
   MatChipsModule,
   MatDatepickerModule,
-  MatStepperModule
+  MatStepperModule,
+  MatCheckboxModule
   ]
 })
 export class AngularMaterialModule {}

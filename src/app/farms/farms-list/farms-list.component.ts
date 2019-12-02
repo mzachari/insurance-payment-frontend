@@ -23,8 +23,8 @@ export class FarmsListComponent implements OnInit {
       this.farmsList =  farmsList.farms.map(farm => {
         return {
           ...farm,
-          startDate: farm.startDate != null?this.convertDate(farm.startDate):null,
-          endDate: farm.endDate != null? this.convertDate(farm.endDate):null        
+          startDate: farm.startDate != null ? this.convertDate(farm.startDate) : null,
+          endDate: farm.endDate != null ? this.convertDate(farm.endDate) : null
         };
       });
    });
@@ -36,7 +36,7 @@ export class FarmsListComponent implements OnInit {
   convertDate(inputFormat) {
     function pad(s) { return (s < 10) ? '0' + s : s; }
     const d = new Date(inputFormat);
-    return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear().toString().substr(-2)].join('/')
+    return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear().toString().substr(-2)].join('/');
   }
 
 }

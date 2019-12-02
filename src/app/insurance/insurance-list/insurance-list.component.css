@@ -55,3 +55,20 @@ mat-card:hover .edit-icon{
   font-weight: 500;
   font-size: 1rem;
 }
+.ins-detail-field{
+  color: grey;
+  font-weight: 500;
+}
+.ins-plan-number, .icon-check-circle{
+  color:green;
+}
+.ins-plan-number{
+  background-color:#e0e0e0;
+  text-align: center;
+}
+.icon-check-circle{
+  vertical-align: middle;
+}
+.status-block {
+  margin:auto;
+}

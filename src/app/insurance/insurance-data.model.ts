@@ -9,5 +9,7 @@ export interface Insurance {
   isFormComplete: number;
   farmerId: string;
   imagePath: string;
+  id: string;
+  insuranceId: string;
   // polygonSchema?
 }
