@@ -105,12 +105,14 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
         })
       };
       console.log(postBody);
-      this.farmService.addFarm(postBody);
+      this.farmService.addFarm(postBody).subscribe((responseData) => {
+        this.form.reset();
+        this.farmAdded.emit("added");
+      });
     } else {
       //  this.postService.updatePost(this.postId, this.form.value.title, this.form.value.content, this.form.value.image);
     }
-    this.form.reset();
-    this.farmAdded.emit("added");
+
   }
 
   onFarmAddCancel() {

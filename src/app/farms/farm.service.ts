@@ -12,9 +12,7 @@ export class FarmService {
   private farmsListUpdated = new Subject<{ farms: Farm[] }>();
   constructor(private http: HttpClient) {}
   addFarm(formData: any) {
-    this.http.post<{message: string, farm: Farm} > (BACKEND_URL, formData).subscribe((responseData) => {
-      console.log(responseData);
-    });
+    return this.http.post<{message: string, farm: Farm} > (BACKEND_URL, formData);
   }
   getAllFarms() {
     this.http.get<{message: string, farms: any, farmerCount: number} > (BACKEND_URL).subscribe((responseData) => {
@@ -24,6 +22,7 @@ export class FarmService {
           ...farm
         };
       });
+      console.log(this.farmsList);
       this.farmsListUpdated.next({ farms: [...this.farmsList] });
     });
   }
