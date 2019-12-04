@@ -139,11 +139,12 @@ export class InsuranceAddComponent implements OnInit {
       isFormComplete: 2
     };
     console.log(patchBody);
+    this.dataLoaded = false;
     this.insuranceService.editInsuranceDetails(this.insuranceId, patchBody).subscribe( () => {
       this.insuranceService
       .getInsuranceById(this.insuranceId)
       .subscribe(responseData => {
-        this.dataLoaded = false;
+        this.dataLoaded = true;
         this.insuranceDoc = responseData;
       });
     });
