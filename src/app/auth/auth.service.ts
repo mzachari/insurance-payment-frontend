@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
-const BACKEND_URL = 'http:/13.68.181.244:3000/api/';
+const BACKEND_URL = 'http://13.68.181.244:3000/api/';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

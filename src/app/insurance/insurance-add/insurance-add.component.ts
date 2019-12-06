@@ -1,21 +1,22 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   Validators,
   FormControl
-} from "@angular/forms";
-import { mimeType } from "../../mime-type.validator";
-import { InsuranceService } from "../insurance.service";
-import { FarmService } from "src/app/farms/farm.service";
-import { Farm } from "src/app/farms/farm-data.model";
-import { Insurance } from "../insurance-data.model";
+} from '@angular/forms';
+import { mimeType } from '../../mime-type.validator';
+import { InsuranceService } from '../insurance.service';
+import { FarmService } from 'src/app/farms/farm.service';
+import { Farm } from 'src/app/farms/farm-data.model';
+import { Insurance } from '../insurance-data.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
-  selector: "app-insurance-add",
-  templateUrl: "./insurance-add.component.html",
-  styleUrls: ["./insurance-add.component.css"]
+  selector: 'app-insurance-add',
+  templateUrl: './insurance-add.component.html',
+  styleUrls: ['./insurance-add.component.css']
 })
 export class InsuranceAddComponent implements OnInit {
   dataLoaded = false;
@@ -26,14 +27,15 @@ export class InsuranceAddComponent implements OnInit {
   imagePreview: string;
   formStatus = 0;
   farmsList: Farm[] = [];
-  insuranceFileName = "insurance-plan-doc";
+  insuranceFileName = 'insurance-plan-doc';
   insuranceDoc: Insurance = null;
   insFarmName = '';
   @Input() insuranceId: string;
   constructor(
     private formBuilder: FormBuilder,
     private insuranceService: InsuranceService,
-    private farmService: FarmService
+    private farmService: FarmService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -104,7 +106,7 @@ export class InsuranceAddComponent implements OnInit {
   onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.firstFormGroup.patchValue({ image: file });
-    this.firstFormGroup.get("image").updateValueAndValidity();
+    this.firstFormGroup.get('image').updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result as string;
@@ -153,5 +155,10 @@ export class InsuranceAddComponent implements OnInit {
     function pad(s) { return (s < 10) ? '0' + s : s; }
     const d = new Date(inputFormat);
     return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear().toString().substr(-2)].join('/');
+  }
+  openSnackBar() {
+    this.snackBar.open('Smart Contract added!', 'Close', {
+      duration: 1000,
+    });
   }
 }

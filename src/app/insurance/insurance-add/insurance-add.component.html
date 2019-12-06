@@ -168,7 +168,7 @@
         </section>
         <div class="align-right">
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-raised-button color="primary" [disabled]="!signed">
+          <button mat-raised-button color="primary" (click)="openSnackBar()" [disabled]="!signed">
             Submit
           </button>
         </div>

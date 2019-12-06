@@ -10,7 +10,7 @@ import { ErrorComponent } from './error/error.component';
 import { ErrorInterceptor } from './error-interceptor';
 import { AngularMaterialModule } from './app-material.module';
 import { AuthMenuComponent } from './auth/auth-menu/auth-menu.component';
-import { LoginComponent } from './auth//login/login.component';
+import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
