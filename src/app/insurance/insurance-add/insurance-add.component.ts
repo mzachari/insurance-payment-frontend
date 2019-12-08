@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -31,12 +31,17 @@ export class InsuranceAddComponent implements OnInit {
   insuranceDoc: Insurance = null;
   insFarmName = '';
   @Input() insuranceId: string;
+
+  @Output() addNotifications = new EventEmitter();
+
   constructor(
     private formBuilder: FormBuilder,
     private insuranceService: InsuranceService,
     private farmService: FarmService,
     private snackBar: MatSnackBar
   ) {}
+
+
 
   ngOnInit() {
     this.farmService.getAllFarms();
@@ -158,6 +163,11 @@ export class InsuranceAddComponent implements OnInit {
     return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear().toString().substr(-2)].join('/');
   }
   openSnackBar() {
+    const notificationData = {
+      id: this.insuranceDoc.insuranceId,
+      content: this.insuranceDoc.insurancePlanNumber + ' Details Saved!'
+    };
+    this.addNotifications.emit(notificationData);
     this.snackBar.open('Smart Contract added!', 'Close', {
       duration: 1000,
     });

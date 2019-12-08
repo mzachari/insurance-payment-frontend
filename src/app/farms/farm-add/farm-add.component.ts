@@ -8,27 +8,28 @@ import {
   ElementRef,
   Input,
   NgZone
-} from "@angular/core";
+} from '@angular/core';
 
 import {
   FormGroup,
   FormControl,
-  Validators,
-  AbstractControl
-} from "@angular/forms";
-import { FarmService } from "../farm.service";
-import { Crop } from "src/app/crops/crops-data.model";
-import { CropService } from "src/app/crops/crops.service";
-import {} from "googlemaps";
-import { MapsAPILoader } from "@agm/core";
-import { Farm } from "../farm-data.model";
+  Validators
+} from '@angular/forms';
+import { FarmService } from '../farm.service';
+import { Crop } from 'src/app/crops/crops-data.model';
+import { CropService } from 'src/app/crops/crops.service';
+import {} from 'googlemaps';
+import { MapsAPILoader } from '@agm/core';
+import { Farm } from '../farm-data.model';
 declare const google: any;
 
 @Component({
-  selector: "app-farm-add",
-  templateUrl: "./farm-add.component.html",
-  styleUrls: ["./farm-add.component.css"]
+  selector: 'app-farm-add',
+  templateUrl: './farm-add.component.html',
+  styleUrls: ['./farm-add.component.css']
 })
+
+
 export class FarmAddComponent implements OnInit, AfterViewInit {
   cropsList: Crop[];
   lat = 20.5937;
@@ -37,8 +38,8 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
   farmCoordsTrunc: { lat: string; lng: string }[] = [];
   farmArea = 0;
   cropsListLoaded = false;
-  private mode = "add";
-  uniqueValidatorIcon = "error";
+  private mode = 'add';
+  uniqueValidatorIcon = 'error';
   form: FormGroup;
   drawingManager: any;
   selectedShape: any;
@@ -83,10 +84,10 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
       .map(farm => farm.name)
       .some(value => value === name);
     if (isNameUnique) {
-      this.uniqueValidatorIcon = "error";
+      this.uniqueValidatorIcon = 'error';
       this.form.controls['name'].setErrors({'notUnique': true});
     } else {
-      this.uniqueValidatorIcon = "check_circle";
+      this.uniqueValidatorIcon = 'check_circle';
     }
   }
 
@@ -94,12 +95,13 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
     if (this.form.invalid) {
       return;
     }
-    if (this.mode === "add") {
+    if (this.mode === 'add') {
       // tslint:disable-next-line: prefer-const
+      console.log(this.farmCoords);
       let postBody = this.form.value;
       postBody.area = this.farmArea;
       postBody.polygonPoints = {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: this.farmCoords.map(farm => {
           return [farm.lat, farm.lng];
         })
@@ -107,7 +109,7 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
       console.log(postBody);
       this.farmService.addFarm(postBody).subscribe((responseData) => {
         this.form.reset();
-        this.farmAdded.emit("added");
+        this.farmAdded.emit('added');
       });
     } else {
       //  this.postService.updatePost(this.postId, this.form.value.title, this.form.value.content, this.form.value.image);
@@ -116,7 +118,7 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
   }
 
   onFarmAddCancel() {
-    this.farmAdded.emit("cancel");
+    this.farmAdded.emit('cancel');
   }
 
   // maps handle
@@ -149,11 +151,13 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
     shape.setEditable(true);
   }
 
-  initDrawingManager(map: any) {
+  initDrawingManager = (map: any) => {
+    let self = this;
+    console.log(self);
     const options = {
       drawingControl: true,
       drawingControlOptions: {
-        drawingModes: ["polygon"]
+        drawingModes: ['polygon']
       },
       polygonOptions: {
         draggable: true,
@@ -165,25 +169,25 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
     this.drawingManager.setMap(map);
     google.maps.event.addListener(
       this.drawingManager,
-      "overlaycomplete",
+      'overlaycomplete',
       event => {
         if (event.type === google.maps.drawing.OverlayType.POLYGON) {
           const paths = event.overlay.getPaths();
           for (let p = 0; p < paths.getLength(); p++) {
-            google.maps.event.addListener(paths.getAt(p), "set_at", function() {
+            google.maps.event.addListener(paths.getAt(p), 'set_at', function() {
               if (!event.overlay.drag) {
-                console.log("triggered 1!");
-                this.farmCoords = [];
+                console.log('triggered 1!');
+                self.farmCoords = [];
                 const len = event.overlay.getPath().getLength();
                 for (let i = 0; i < len; i++) {
-                  this.farmCoords.push(
+                  self.farmCoords.push(
                     event.overlay
                       .getPath()
                       .getAt(i)
                       .toJSON()
                   );
                 }
-                this.farmArea = google.maps.geometry.spherical.computeArea(
+                self.farmArea = google.maps.geometry.spherical.computeArea(
                   event.overlay.getPath()
                 );
                 console.log(this.farmCoords, this.farmArea);
@@ -191,20 +195,20 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
             });
             google.maps.event.addListener(
               paths.getAt(p),
-              "insert_at",
+              'insert_at',
               function() {
-                console.log("triggered 2!");
-                this.farmCoords = [];
+                console.log('triggered 2!');
+                self.farmCoords = [];
                 const len = event.overlay.getPath().getLength();
                 for (let i = 0; i < len; i++) {
-                  this.farmCoords.push(
+                  self.farmCoords.push(
                     event.overlay
                       .getPath()
                       .getAt(i)
                       .toJSON()
                   );
                 }
-                this.farmArea = google.maps.geometry.spherical.computeArea(
+                self.farmArea = google.maps.geometry.spherical.computeArea(
                   event.overlay.getPath()
                 );
                 console.log(this.farmCoords, this.farmArea);
@@ -212,44 +216,44 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
             );
             google.maps.event.addListener(
               paths.getAt(p),
-              "remove_at",
+              'remove_at',
               function() {
-                console.log("triggered 3!");
-                this.farmCoords = [];
+                console.log('triggered 3!');
+                self.farmCoords = [];
                 const len = event.overlay.getPath().getLength();
                 for (let i = 0; i < len; i++) {
-                  this.farmCoords.push(
+                  self.farmCoords.push(
                     event.overlay
                       .getPath()
                       .getAt(i)
                       .toJSON()
                   );
                 }
-                this.farmArea = google.maps.geometry.spherical.computeArea(
+                self.farmArea = google.maps.geometry.spherical.computeArea(
                   event.overlay.getPath()
                 );
                 console.log(this.farmCoords, this.farmArea);
               }
             );
           }
-          console.log("if1");
-          this.farmCoords = [];
+          console.log('if1');
+          self.farmCoords = [];
           const len = event.overlay.getPath().getLength();
           for (let i = 0; i < len; i++) {
-            this.farmCoords.push(
+            self.farmCoords.push(
               event.overlay
                 .getPath()
                 .getAt(i)
                 .toJSON()
             );
           }
-          this.farmArea = google.maps.geometry.spherical.computeArea(
+          self.farmArea = google.maps.geometry.spherical.computeArea(
             event.overlay.getPath()
           );
           console.log(this.farmCoords, this.farmArea);
         }
         if (event.type !== google.maps.drawing.OverlayType.MARKER) {
-          console.log("if2");
+          console.log('if2');
           // Switch back to non-drawing mode after drawing a shape.
           this.drawingManager.setDrawingMode(null);
           // To hide:
@@ -260,7 +264,7 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
           // mouses down on it.
           const newShape = event.overlay;
           newShape.type = event.type;
-          google.maps.event.addListener(newShape, "click", () => {
+          google.maps.event.addListener(newShape, 'click', () => {
             this.setSelection(newShape);
           });
           this.setSelection(newShape);
@@ -269,7 +273,7 @@ export class FarmAddComponent implements OnInit, AfterViewInit {
     );
   }
   private setCurrentPosition() {
-    if ("geolocation" in navigator) {
+    if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;

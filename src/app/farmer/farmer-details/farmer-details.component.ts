@@ -17,6 +17,7 @@ export class FarmerDetailsComponent implements OnInit {
   mode = 'list';
   dataLoaded = false;
   private farmerDetailsSub: Subscription;
+  notificationsList = [];
   constructor(
     private authService: AuthService,
     private farmerService: FarmerService
@@ -68,5 +69,9 @@ export class FarmerDetailsComponent implements OnInit {
   }
   onLogout() {
     this.authService.logout();
+  }
+  onAddNotifications(notificationData) {
+    console.log(notificationData);
+    this.notificationsList.push(notificationData);
   }
 }
