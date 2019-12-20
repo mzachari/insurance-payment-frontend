@@ -74,4 +74,7 @@ export class FarmerDetailsComponent implements OnInit {
     console.log(notificationData);
     this.notificationsList.push(notificationData);
   }
+  onInsAdded() {
+    this.mode = 'list';
+  }
 }

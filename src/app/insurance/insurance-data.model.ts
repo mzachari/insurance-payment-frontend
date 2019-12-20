@@ -11,5 +11,6 @@ export interface Insurance {
   imagePath: string;
   id: string;
   insuranceId: string;
+  _id: string;
   // polygonSchema?
 }

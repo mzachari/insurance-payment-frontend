@@ -11,6 +11,8 @@ import { Insurance } from '../insurance-data.model';
 export class InsuranceListComponent implements OnInit {
   private insuranceSub: Subscription;
   insuranceList: Insurance[] = [];
+  insuranceListIncomplete: Insurance[] = [];
+  insuranceListComplete: Insurance[] = [];
   incompleteCount: number;
   completeCount: number;
   constructor(private insuranceService: InsuranceService) {}
@@ -23,10 +25,16 @@ export class InsuranceListComponent implements OnInit {
       .getInsuranceListUpdateListener()
       .subscribe((insuranceData: { insuranceList: Insurance[] }) => {
         this.insuranceList = insuranceData.insuranceList;
-        this.incompleteCount = this.insuranceList.filter(insurance => {
+        this.insuranceListIncomplete = this.insuranceList.filter(insurance => {
           return insurance.isFormComplete < 3;
-        }).length;
-        this.completeCount = this.insuranceList.length - this.incompleteCount;
+        });
+        this.incompleteCount = this.insuranceListIncomplete.length;
+
+        this.insuranceListComplete = this.insuranceList.filter(insurance => {
+          return insurance.isFormComplete == 3;
+        });
+        this.completeCount = this.insuranceListComplete.length;
+
         console.log(this.insuranceList);
       });
   }

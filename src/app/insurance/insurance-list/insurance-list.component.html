@@ -1,12 +1,12 @@
     <mat-expansion-panel [expanded] = "true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Incomplete ({{incompleteCount}})
+          Incomplete Uploads ({{incompleteCount}})
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <div class="insurance-list-container" *ngIf="insuranceList.length > 0">
-          <mat-card appMaterialElevation defaultElevation=2 raisedElevation="16" class="insurance-card" *ngFor="let insurance of insuranceList">
+          <mat-card appMaterialElevation defaultElevation=2 raisedElevation="16" class="insurance-card" *ngFor="let insurance of insuranceListIncomplete">
               <img mat-card-image src="../../../assets/insbg.jpg" alt="Photo of a plant">
               <button (click)="onInsEdit($event)" [id] = "insurance.id" class="edit-icon" mat-icon-button><mat-icon [id] = "insurance.id">edit</mat-icon></button>
               <mat-card-content>
@@ -24,8 +24,19 @@
     <mat-expansion-panel [expanded] = "true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Complete ({{completeCount}})
+          Ongoing Claims ({{completeCount}})
         </mat-panel-title>
       </mat-expansion-panel-header>
-
+      <div class="insurance-list-container" *ngIf="insuranceList.length > 0">
+        <mat-card appMaterialElevation defaultElevation=2 raisedElevation="16" class="insurance-card" *ngFor="let insurance of insuranceListComplete">
+            <img mat-card-image src="../../../assets/insbg.jpg" alt="Photo of a plant">
+            <mat-card-content>
+                <p class="ins-detail-field ins-plan-number">{{ insurance.insurancePlanNumber }}</p>
+                <div class="status-block">
+                  <p class="ins-detail-field"> Amount: {{insurance.insuredAmount}}</p>
+                  <p class="ins-detail-field"> Premium Percent: {{insurance.premiumPercentage}}</p>
+                </div>
+              </mat-card-content>
+          </mat-card>
+        </div>
     </mat-expansion-panel>

@@ -70,7 +70,7 @@
 
   <app-insurance-add
     *ngIf="mode == 'ins-add'"
-    [insuranceId]="insuranceId" (addNotifications)="onAddNotifications($event)"
+    [insuranceId]="insuranceId" (addNotifications)="onAddNotifications($event)" (insAdded) = "onInsAdded($event)"
   ></app-insurance-add>
   <app-farm-add
     *ngIf="mode == 'farm-add'"

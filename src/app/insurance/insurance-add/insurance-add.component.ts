@@ -33,6 +33,7 @@ export class InsuranceAddComponent implements OnInit {
   @Input() insuranceId: string;
 
   @Output() addNotifications = new EventEmitter();
+  @Output() insAdded = new EventEmitter();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -162,7 +163,8 @@ export class InsuranceAddComponent implements OnInit {
     const d = new Date(inputFormat);
     return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear().toString().substr(-2)].join('/');
   }
-  openSnackBar() {
+
+  onInsuranceSubmitted() {
     const notificationData = {
       id: this.insuranceDoc.insuranceId,
       content: this.insuranceDoc.insurancePlanNumber + ' Details Saved!'
@@ -171,5 +173,10 @@ export class InsuranceAddComponent implements OnInit {
     this.snackBar.open('Smart Contract added!', 'Close', {
       duration: 1000,
     });
+    console.log(this.insuranceDoc);
+    this.insuranceService.submitInsuranceDetails(this.insuranceDoc._id).subscribe(smartContractData => {
+      this.insAdded.emit('added');
+    });
+
   }
 }

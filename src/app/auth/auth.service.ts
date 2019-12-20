@@ -32,7 +32,7 @@ export class AuthService {
 
   createUser(formData: any) {
     console.log(formData);
-    this.http.post('http://13.68.181.244:3000/api/farmers/signup', formData)
+    this.http.post('http://http://13.68.181.244:3000/api/farmers/signup', formData)
       .subscribe(response => {
         console.log(response);
         this.authStatusListener.next(false);
@@ -43,7 +43,7 @@ export class AuthService {
 
   login(contactNumber: string, password: string) {
     const authData: AuthData = { contactNumber, password };
-    this.http.post<{ token: string, expiresIn: number, userId: string }>('http://13.68.181.244:3000/api/farmers/login', authData)
+    this.http.post<{ token: string, expiresIn: number, userId: string }>('http://http://13.68.181.244:3000/api/farmers/login', authData)
       .subscribe(response => {
         const token = response.token;
         const userId = response.userId;
