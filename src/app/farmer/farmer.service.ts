@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { Farmer } from './farmer-data.model';
 import { map } from 'rxjs/operators';
 
-const BACKEND_URL = 'http://13.68.181.244:3000/api/farmers/';
+const BACKEND_URL = 'http://localhost:3000/api/farmers/';
 
 @Injectable({ providedIn: 'root' })
 export class FarmerService {

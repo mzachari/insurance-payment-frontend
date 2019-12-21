@@ -113,9 +113,6 @@
         </mat-form-field>
         <br />
         <div>
-          <button (click)="onBackFromVerifyTab()" mat-button matStepperPrevious>
-            Back
-          </button>
           <button (click)="onDetailsVerified()" mat-button matStepperNext>
             Next
           </button>
@@ -167,7 +164,6 @@
           >
         </section>
         <div class="align-right">
-          <button mat-button matStepperPrevious>Back</button>
           <button mat-raised-button color="primary" (click)="onInsuranceSubmitted()" [disabled]="!signed">
             Submit
           </button>
