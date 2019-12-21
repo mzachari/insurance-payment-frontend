@@ -5,7 +5,7 @@ import { Insurance } from './insurance-data.model';
 import { map } from 'rxjs/operators';
 import { stringify } from 'querystring';
 
-const BACKEND_URL = 'http://http://13.68.181.244:3000/api/insurance/';
+const BACKEND_URL = 'http://13.68.181.244:3000/api/insurance/';
 
 @Injectable({ providedIn: 'root' })
 export class InsuranceService {
