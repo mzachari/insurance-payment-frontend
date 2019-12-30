@@ -1,0 +1,87 @@
+mat-card {
+  width: 8rem;
+  height: 12rem;
+  background-color: white;
+  color: black;
+  margin: 1rem;
+}
+.farm-add-card {
+  background-image: url("../../../../assets/insbg.jpg");
+  width: 150px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: white;
+  color: white;
+  position: relative;
+  text-align: center;
+}
+.farm-add-card:hover {
+  opacity: 0.9;
+}
+.centered {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.farm-list-container {
+  display: flex;
+  width: 100%;
+  padding: 1rem;
+}
+mat-card .farm-add-img {
+  object-fit: cover; /*this makes de image in src fit to the size of specified below*/
+  width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+  height: 100%;
+  margin: auto;
+}
+.farm-detail-field-label {
+  color:#e0e0e0;
+  font-weight: 500;
+  text-align: center;
+  visibility: visible;
+  text-align: center;
+}
+.farm-detail-field-value,
+.farm-detail-field-date {
+  text-align: center;
+  color: grey;
+  font-weight: 500;
+
+}
+.farm-detail-field-date {
+  font-size: 0.75rem;
+  color:#e0e0e0;
+}
+.edit-icon {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  color:white;
+  display: none;
+}
+mat-card:hover .farm-detail-field-label{
+  visibility: visible;
+}
+mat-card:hover .edit-icon{
+  display: block;
+}
+.farm-name, .icon-landscape{
+  color:green;
+}
+.farm-name{
+  text-align: center;
+  font-weight: 500;
+}
+.icon-landscape{
+  vertical-align: middle;
+}
+.farm-sub-details {
+  text-align:center;
+}
+p{
+  margin:0px!important;
+}
+img{
+  margin-bottom:0px!important;
+}

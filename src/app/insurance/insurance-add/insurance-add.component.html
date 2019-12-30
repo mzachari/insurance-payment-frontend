@@ -7,8 +7,15 @@
 >
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Upload Insurance Plan Image</ng-template>
+      <ng-template matStepLabel>Choose Insurance Plan</ng-template>
       <br />
+      <app-policy-list *ngIf = "showInsList" [listAll] = "true" (policyClicked) = "onPolicyChosen($event)"></app-policy-list>
+      <div class="flex-container">
+      <button type="button" *ngIf = "showInsList" color="primary" (click) = "onPolicyTaken()"  mat-stroked-button matStepperNext>
+        Next
+      </button>
+    </div>
+      <hr *ngIf = "showInsList">
       <button
         color="primary"
         mat-stroked-button
@@ -104,18 +111,24 @@
         </mat-form-field>
         <br />
         <mat-form-field>
+          <input
+            matInput
+            placeholder="Crop Name"
+            formControlName="cropName"
+            required
+            (input) = "updateFarmList($event)"
+          />
+        </mat-form-field><br />
+        <mat-form-field>
           <mat-label>Farm</mat-label>
           <mat-select *ngIf="farmsLoaded" formControlName="farmId">
-            <mat-option *ngFor="let farm of farmsList" [value]="farm.id">
+            <mat-option *ngFor="let farm of farmsListFilter" [value]="farm.id">
               {{ farm.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <br />
         <div>
-          <button (click)="onBackFromVerifyTab()" mat-button matStepperPrevious>
-            Back
-          </button>
           <button (click)="onDetailsVerified()" mat-button matStepperNext>
             Next
           </button>
@@ -167,7 +180,6 @@
           >
         </section>
         <div class="align-right">
-          <button mat-button matStepperPrevious>Back</button>
           <button mat-raised-button color="primary" (click)="onInsuranceSubmitted()" [disabled]="!signed">
             Submit
           </button>

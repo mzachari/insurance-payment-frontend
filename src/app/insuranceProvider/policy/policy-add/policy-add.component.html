@@ -1,0 +1,40 @@
+<mat-card>
+  <form [formGroup]="form" (submit)="onPolicyAdd()">
+      <mat-form-field>
+          <input
+            matInput
+            placeholder="Policy Name"
+            formControlName="policyName"
+            required
+          />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Duration in days"
+        formControlName="durationDays"
+        required
+      />
+</mat-form-field>
+<mat-form-field>
+  <input
+    matInput
+    placeholder="Minimum Amount"
+    formControlName="minimumAmount"
+    required
+  />
+</mat-form-field>
+<mat-form-field>
+  <input
+    matInput
+    placeholder="Premium Percentage"
+    formControlName="premiumPercentage"
+    required
+  />
+</mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Add Policy</button>
+    <button mat-raised-button (click)="onPolicyAddCancel()" color="accent">Cancel</button>
+
+  </form>
+</mat-card>

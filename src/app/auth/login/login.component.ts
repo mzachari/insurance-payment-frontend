@@ -12,13 +12,14 @@ import { Subscription } from 'rxjs';
 export class LoginComponent implements OnInit, OnDestroy {
   isLoading =  false;
   private authStatusSub: Subscription;
+  role = '';
   constructor(public authService: AuthService) {}
   onLogin(form: NgForm) {
     if (form.invalid) {
       return;
     }
     this.isLoading =  true;
-    this.authService.login(form.value.contactNumber, form.value.password);
+    this.authService.login(form.value.contactNumber, form.value.password, this.role);
   }
 
   ngOnInit(): void {

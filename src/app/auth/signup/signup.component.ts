@@ -20,7 +20,8 @@ export class SignupComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading =  true;
-    this.authService.createUser(form.value);
+    // console.log("role", this.role);
+    this.authService.createUser(form.value, this.role);
   }
   ngOnInit(): void {
   this.authStatusSub = this.authService.getAuthStatusListener().subscribe(authStatus => {

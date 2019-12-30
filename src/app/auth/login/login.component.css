@@ -4,3 +4,15 @@ mat-form-field{
 mat-spinner {
   margin: auto;
 }
+.role-radio-group {
+  display: flex;
+  flex-direction: row;
+  margin: 15px 0;
+}
+
+.role-radio-button {
+  margin-right: 10px;
+}
+mat-radio-button{
+  margin-right: 10px;
+}

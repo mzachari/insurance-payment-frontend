@@ -5,7 +5,9 @@ export const mimeType = (control: AbstractControl): Promise<{[key: string]: any}
   if (typeof(control.value) === 'string') {
     return of(null);
   }
+
   const file = control.value as File;
+  if(file == null) {  return of(null); }
   const fileReader = new FileReader();
   const frObs = new Observable((observer: Observer<{[key: string]: any}>) => {
     fileReader.addEventListener('loadend', () => {

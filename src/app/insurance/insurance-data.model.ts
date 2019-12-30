@@ -12,5 +12,6 @@ export interface Insurance {
   id: string;
   insuranceId: string;
   _id: string;
+  cropName: string;
   // polygonSchema?
 }

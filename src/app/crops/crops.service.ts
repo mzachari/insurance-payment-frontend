@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Crop } from './crops-data.model';
 
-const BACKEND_URL = 'http://13.68.181.244:3000/api/crops/';
+const BACKEND_URL = 'http://localhost:3000/api/crops/';
 
 @Injectable({ providedIn: 'root' })
 export class CropService {

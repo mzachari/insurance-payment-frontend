@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
-const BACKEND_URL = 'http://13.68.181.244:3000/api/';
+const BACKEND_URL = 'http://localhost:3000/api/';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -15,6 +15,11 @@ export class AuthService {
   private isAuthenticated = false;
   private tokenTimer: any;
   private userId: string;
+  private role: string;
+
+  getRole() {
+    return this.role;
+  }
   getToken() {
     return this.token;
   }
@@ -30,9 +35,9 @@ export class AuthService {
     return this.authStatusListener.asObservable();
   }
 
-  createUser(formData: any) {
+  createUser(formData: any, role: string) {
     console.log(formData);
-    this.http.post('http://13.68.181.244:3000/api/farmers/signup', formData)
+    this.http.post('http://localhost:3000/api/' + role + '/signup', formData)
       .subscribe(response => {
         console.log(response);
         this.authStatusListener.next(false);
@@ -41,9 +46,10 @@ export class AuthService {
       });
   }
 
-  login(contactNumber: string, password: string) {
+  login(contactNumber: string, password: string, role: string) {
     const authData: AuthData = { contactNumber, password };
-    this.http.post<{ token: string, expiresIn: number, userId: string }>('http://13.68.181.244:3000/api/farmers/login', authData)
+    // tslint:disable-next-line: max-line-length
+    this.http.post<{ token: string, expiresIn: number, userId: string,role: string }>('http://localhost:3000/api/' + role + '/login', authData)
       .subscribe(response => {
         const token = response.token;
         const userId = response.userId;
@@ -52,12 +58,18 @@ export class AuthService {
           this.token = token;
           this.isAuthenticated = true;
           this.userId = userId;
+          this.role = response.role;
           this.setAuthTimer(expiresInDuration);
           const now =  new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-          this.saveAuthData(token, expirationDate, userId);
+          this.saveAuthData(token, expirationDate, userId, response.role);
           this.authStatusListener.next(true);
-          this.router.navigate(['/profile']);
+          if (response.role === 'farmer') {
+            this.router.navigate(['/profile']);
+          } else {
+            this.router.navigate(['/insurancePortal']);
+          }
+
         }
       }, error => {
         this.authStatusListener.next(false);
@@ -83,6 +95,7 @@ export class AuthService {
         this.token = authInformation.token;
         this.userId = authInformation.userId;
         this.isAuthenticated = true;
+        this.role = authInformation.role;
         this.setAuthTimer(expiresIn / 1000);
         this.authStatusListener.next(true);
       }
@@ -94,29 +107,33 @@ export class AuthService {
       this.logout();
     }, expiresInDuration * 1000 );
   }
-  private saveAuthData( token: string, expirationDate: Date, userId: string) {
+  private saveAuthData( token: string, expirationDate: Date, userId: string, role: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
     localStorage.setItem('userId', userId);
+    localStorage.setItem('role', role);
   }
 
   private clearAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
     localStorage.removeItem('userId');
+    localStorage.removeItem('role');
   }
 
   private getAuthData() {
     const token = localStorage.getItem('token');
     const expiration = localStorage.getItem('expiration');
     const userId = localStorage.getItem('userId');
+    const role = localStorage.getItem('role');
     if (!token || !expiration) {
       return;
     }
     return {
       token,
       expirationDate: new Date(expiration),
-      userId
+      userId,
+      role
     };
   }
 

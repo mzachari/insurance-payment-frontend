@@ -14,7 +14,11 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.authService.autoAuthUser();
     if (this.authService.isAuth()) {
-      this.router.navigate(['/profile']);
+      if (this.authService.getRole() === 'farmer') {
+        this.router.navigate(['/profile']);
+      } else {
+        this.router.navigate(['/insurancePortal']);
+      }
     }
   }
 }

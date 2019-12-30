@@ -1,0 +1,32 @@
+<div class="farm-list-container" *ngIf="policyList.length > 0">
+  <mat-card
+    class="farm-card"
+    appMaterialElevation
+    defaultElevation="2"
+    raisedElevation="16"
+    *ngFor="let policy of policyList"
+    [id] = "policy.id"
+    (click) = "onPolicyClicked(policy.id)"
+
+  >
+    <img mat-card-image src="../../../../assets/insbg.jpg" alt="Photo of a plant" />
+    <mat-card-content>
+      <p class="farm-name">
+        {{ policy.policyName }}
+      </p>
+      <p class="farm-sub-details">
+        <span class="farm-detail-field-label"> Duration in Days </span><br />
+        <span class="farm-detail-field-value">{{ policy.durationDays }}</span
+        ><br />
+        <span class="farm-detail-field-label">Premium% </span><br />
+        <span class="farm-detail-field-value"
+          >{{ policy.premiumPercentage }} </span
+        ><br />
+        <span class="farm-detail-field-label">Minimum Amount </span><br />
+        <span class="farm-detail-field-value"
+          >{{ policy.minimumAmount }} </span
+        ><br />
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

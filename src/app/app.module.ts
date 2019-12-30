@@ -24,6 +24,9 @@ import { InsuranceAddComponent } from './insurance/insurance-add/insurance-add.c
 import { InsuranceListComponent } from './insurance/insurance-list/insurance-list.component';
 import { MaterialElevationDirective } from './material-elevation.directive';
 import { ValidationErrorComponent } from './validation-error/validation-error.component';
+import { InsuranceProviderDetailsComponent } from './insuranceProvider/insurance-provider-details/insurance-provider-details.component';
+import { PolicyListComponent } from './insuranceProvider/policy/policy-list/policy-list.component';
+import { PolicyAddComponent } from './insuranceProvider/policy/policy-add/policy-add.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { ValidationErrorComponent } from './validation-error/validation-error.co
     InsuranceAddComponent,
     InsuranceListComponent,
     MaterialElevationDirective,
-    ValidationErrorComponent
+    ValidationErrorComponent,
+    InsuranceProviderDetailsComponent,
+    PolicyListComponent,
+    PolicyAddComponent
   ],
   imports: [
     AgmCoreModule.forRoot({
